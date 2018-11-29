@@ -27,6 +27,10 @@ def find_board(image):
     _, contours, _ = cv2.findContours(image, cv2.RETR_TREE, 
                                              cv2.CHAIN_APPROX_SIMPLE)
     max_contour = max(contours, key=cv2.contourArea)
+   
+    #orig_image = cv2.cvtColor(image, cv2.COLOR_GRAY2BGR)
+    #cv2.drawContours(orig_image, [max_contour], 0, (0,255,0),5)
+    #cv2.imshow('max', orig_image)
 
     #find the extreme 4 points of the contour
     board_pts = find_rect_pts(max_contour).reshape((4,2)).tolist()
@@ -90,7 +94,7 @@ def main(argv):
     #cvt to grayscale and blur
     thresh = cv2.cvtColor(orig_image, cv2.COLOR_BGR2GRAY)
     thresh = cv2.GaussianBlur(thresh, (7,7), 0)
-    
+   
     #threshold the image adaptively with shadow correction and invert
     thresh = cv2.adaptiveThreshold(thresh, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,\
                                                 cv2.THRESH_BINARY_INV,11,2)
